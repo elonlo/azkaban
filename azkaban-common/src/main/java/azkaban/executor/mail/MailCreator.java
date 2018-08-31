@@ -20,16 +20,15 @@ import azkaban.executor.ExecutableFlow;
 import azkaban.utils.EmailMessage;
 
 public interface MailCreator {
-
-  public boolean createFirstErrorMessage(ExecutableFlow flow,
-      EmailMessage message, String azkabanName, String scheme,
+    boolean createFirstErrorMessage(ExecutableFlow flow,
+      EmailMessage message, String azkabanName, String subject, String scheme,
       String clientHostname, String clientPortNumber, String... vars);
 
-  public boolean createErrorEmail(ExecutableFlow flow, EmailMessage message,
-      String azkabanName, String scheme, String clientHostname,
+    boolean createErrorEmail(ExecutableFlow flow, EmailMessage message,
+      String azkabanName, String subject, String scheme, String clientHostname,
       String clientPortNumber, String... vars);
 
-  public boolean createSuccessEmail(ExecutableFlow flow, EmailMessage message,
-      String azkabanName, String scheme, String clientHostname,
+    boolean createSuccessEmail(ExecutableFlow flow, EmailMessage message,
+      String azkabanName, String subject, String scheme, String clientHostname,
       String clientPortNumber, String... vars);
 }

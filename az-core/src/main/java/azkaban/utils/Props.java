@@ -16,14 +16,7 @@
 
 package azkaban.utils;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
@@ -182,7 +175,7 @@ public class Props {
    */
   private void loadFrom(final InputStream inputStream) throws IOException {
     final Properties properties = new Properties();
-    properties.load(inputStream);
+    properties.load(new InputStreamReader(inputStream, "utf-8"));
     this.put(properties);
   }
 

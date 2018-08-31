@@ -52,6 +52,7 @@ public class Emailer extends AbstractMailer implements Alerter {
   private final String mailSender;
   private final String azkabanName;
   private final String tls;
+  private final String subject;
   private boolean testMode = false;
 
   @Inject
@@ -65,6 +66,7 @@ public class Emailer extends AbstractMailer implements Alerter {
     this.mailPassword = props.getString("mail.password", "");
     this.mailSender = props.getString("mail.sender", "");
     this.tls = props.getString("mail.tls", "false");
+    this.subject = props.getString("mail.subject", "");
 
     final int mailTimeout = props.getInt("mail.timeout.millis", 30000);
     EmailMessage.setTimeout(mailTimeout);
@@ -161,7 +163,7 @@ public class Emailer extends AbstractMailer implements Alerter {
         + mailCreator.getClass().getCanonicalName());
 
     final boolean mailCreated =
-        mailCreator.createFirstErrorMessage(flow, message, this.azkabanName, this.scheme,
+        mailCreator.createFirstErrorMessage(flow, message, this.azkabanName, this.subject, this.scheme,
             this.clientHostname, this.clientPortNumber);
 
     if (mailCreated && !this.testMode) {
@@ -192,7 +194,7 @@ public class Emailer extends AbstractMailer implements Alerter {
         + mailCreator.getClass().getCanonicalName());
 
     final boolean mailCreated =
-        mailCreator.createErrorEmail(flow, message, this.azkabanName, this.scheme,
+        mailCreator.createErrorEmail(flow, message, this.azkabanName, this.subject, this.scheme,
             this.clientHostname, this.clientPortNumber, extraReasons);
 
     if (mailCreated && !this.testMode) {
@@ -223,7 +225,7 @@ public class Emailer extends AbstractMailer implements Alerter {
         + mailCreator.getClass().getCanonicalName());
 
     final boolean mailCreated =
-        mailCreator.createSuccessEmail(flow, message, this.azkabanName, this.scheme,
+        mailCreator.createSuccessEmail(flow, message, this.azkabanName, this.subject, this.scheme,
             this.clientHostname, this.clientPortNumber);
 
     if (mailCreated && !this.testMode) {
