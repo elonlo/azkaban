@@ -77,10 +77,16 @@ function fetchFlowInfo(model, projectName, flowId, execId) {
       model.set({
         "successEmails": data.successEmails,
         "failureEmails": data.failureEmails,
+        "successPhones": data.successPhones,
+        "failurePhones": data.failurePhones,
         "failureAction": data.failureAction,
         "notifyFailure": {
           "first": data.notifyFailureFirst,
           "last": data.notifyFailureLast
+        },
+        "smsNotifyFailure": {
+          "first": data.smsNotifyFailureFirst,
+          "last": data.smsNotifyFailureLast
         },
         "flowParams": data.flowParam,
         "isRunning": data.running,

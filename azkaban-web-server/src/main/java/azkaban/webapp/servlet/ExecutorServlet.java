@@ -615,6 +615,8 @@ public class ExecutorServlet extends LoginAbstractAzkabanServlet {
 
     ret.put("successEmails", flow.getSuccessEmails());
     ret.put("failureEmails", flow.getFailureEmails());
+    ret.put("successPhones", flow.getSuccessPhones());
+    ret.put("failurePhones", flow.getFailurePhones());
 
     Schedule sflow = null;
     try {
@@ -655,6 +657,8 @@ public class ExecutorServlet extends LoginAbstractAzkabanServlet {
 
     ret.put("successEmails", options.getSuccessEmails());
     ret.put("failureEmails", options.getFailureEmails());
+    ret.put("successPhones", options.getSuccessPhones());
+    ret.put("failurePhones", options.getFailurePhones());
     ret.put("flowParam", options.getFlowParameters());
 
     final FailureAction action = options.getFailureAction();
@@ -674,6 +678,8 @@ public class ExecutorServlet extends LoginAbstractAzkabanServlet {
 
     ret.put("notifyFailureFirst", options.getNotifyOnFirstFailure());
     ret.put("notifyFailureLast", options.getNotifyOnLastFailure());
+    ret.put("smsNotifyFailureFirst", options.getSmsNotifyOnFirstFailure());
+    ret.put("smsNotifyFailureLast", options.getSmsNotifyOnLastFailure());
 
     ret.put("failureEmailsOverride", options.isFailureEmailsOverridden());
     ret.put("successEmailsOverride", options.isSuccessEmailsOverridden());

@@ -128,6 +128,12 @@ public class ExecutableFlow extends ExecutableFlowBase {
     if (flow.getFailureEmails() != null) {
       this.executionOptions.setFailureEmails(flow.getFailureEmails());
     }
+    if (flow.getSuccessPhones() != null) {
+      this.executionOptions.setSuccessPhones(flow.getSuccessPhones());
+    }
+    if (flow.getFailurePhones() != null) {
+      this.executionOptions.setFailurePhones(flow.getFailurePhones());
+    }
   }
 
   @Override

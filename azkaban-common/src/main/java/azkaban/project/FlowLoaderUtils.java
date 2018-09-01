@@ -211,6 +211,22 @@ public class FlowLoaderUtils {
       failureEmail.add(email.toLowerCase());
     }
 
+    final List<String> successPhoneList =
+        prop.getStringList(CommonJobProperties.SUCCESS_PHONES,
+            Collections.EMPTY_LIST);
+    final Set<String> successPhones = new HashSet<>();
+    for (final String phone : successPhoneList) {
+      successPhones.add(phone);
+    }
+
+    final List<String> failurePhoneList =
+        prop.getStringList(CommonJobProperties.FAILURE_PHONES,
+            Collections.EMPTY_LIST);
+    final Set<String> failurePhones = new HashSet<>();
+    for (final String phone : failurePhoneList) {
+      failurePhones.add(phone);
+    }
+
     final List<String> notifyEmailList =
         prop.getStringList(CommonJobProperties.NOTIFY_EMAILS,
             Collections.EMPTY_LIST);
@@ -222,6 +238,8 @@ public class FlowLoaderUtils {
 
     flow.addFailureEmails(failureEmail);
     flow.addSuccessEmails(successEmail);
+    flow.setFailurePhones(failurePhones);
+    flow.setSuccessPhones(successPhones);
   }
 
   /**

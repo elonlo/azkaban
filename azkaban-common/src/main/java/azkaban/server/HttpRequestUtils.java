@@ -84,6 +84,29 @@ public class HttpRequestUtils {
           "notifyFailureLast")));
     }
 
+    if (hasParam(req, "failurePhones")) {
+        final String phones = getParam(req, "failurePhones");
+        if (!phones.isEmpty()) {
+            final String[] phoneSplit = phones.split("\\s*,\\s*|\\s*;\\s*|\\s+");
+            execOptions.setFailurePhones(Arrays.asList(phoneSplit));
+        }
+    }
+  if (hasParam(req, "successPhones")) {
+      final String phones = getParam(req, "successPhones");
+      if (!phones.isEmpty()) {
+          final String[] phoneSplit = phones.split("\\s*,\\s*|\\s*;\\s*|\\s+");
+          execOptions.setSuccessPhones(Arrays.asList(phoneSplit));
+      }
+  }
+  if (hasParam(req, "smsNotifyFailureFirst")) {
+      execOptions.setSmsNotifyOnFirstFailure(Boolean.parseBoolean(getParam(req,
+              "smsNotifyFailureFirst")));
+  }
+  if (hasParam(req, "smsNotifyFailureLast")) {
+      execOptions.setSmsNotifyOnLastFailure(Boolean.parseBoolean(getParam(req,
+              "smsNotifyFailureLast")));
+  }
+
     String concurrentOption = getParam(req, "concurrentOption", "skip");
     execOptions.setConcurrentOption(concurrentOption);
     if (concurrentOption.equals("pipeline")) {

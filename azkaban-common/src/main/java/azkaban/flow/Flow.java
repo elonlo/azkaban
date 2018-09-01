@@ -42,6 +42,8 @@ public class Flow {
   private int numLevels = -1;
   private List<String> failureEmail = new ArrayList<>();
   private List<String> successEmail = new ArrayList<>();
+  private List<String> failurePhone = new ArrayList<>();
+  private List<String> successPhone = new ArrayList<>();
   private String mailCreator = DefaultMailCreator.DEFAULT_MAIL_CREATOR;
   private ArrayList<String> errors;
   private int version = -1;
@@ -106,6 +108,8 @@ public class Flow {
 
     flow.failureEmail = (List<String>) flowObject.get("failure.email");
     flow.successEmail = (List<String>) flowObject.get("success.email");
+    flow.failurePhone = (List<String>) flowObject.get("failure.phone");
+    flow.successPhone = (List<String>) flowObject.get("success.phone");
     if (flowObject.containsKey("mailCreator")) {
       flow.mailCreator = flowObject.get("mailCreator").toString();
     }
@@ -220,6 +224,22 @@ public class Flow {
     this.successEmail.addAll(emails);
   }
 
+  public List<String> getFailurePhones() {
+    return failurePhone;
+  }
+
+  public void setFailurePhones(final Collection<String> failurePhone) {
+    this.failurePhone.addAll(failurePhone);
+  }
+
+  public List<String> getSuccessPhones() {
+    return successPhone;
+  }
+
+  public void setSuccessPhones(final Collection<String> successPhone) {
+    this.successPhone.addAll(successPhone);
+  }
+
   public void addFailureEmails(final Collection<String> emails) {
     this.failureEmail.addAll(emails);
   }
@@ -332,6 +352,8 @@ public class Flow {
     flowObj.put("edges", objectizeEdges());
     flowObj.put("failure.email", this.failureEmail);
     flowObj.put("success.email", this.successEmail);
+    flowObj.put("failure.phone", this.failurePhone);
+    flowObj.put("success.phone", this.successPhone);
     flowObj.put("mailCreator", this.mailCreator);
     flowObj.put("layedout", this.isLayedOut);
     flowObj.put("embeddedFlow", this.isEmbeddedFlow);
@@ -440,4 +462,30 @@ public class Flow {
     this.projectId = projectId;
   }
 
+  @Override
+  public String toString() {
+    return "Flow{" +
+        "id='" + id + '\'' +
+        ", nodes=" + nodes +
+        ", edges=" + edges +
+        ", outEdges=" + outEdges +
+        ", inEdges=" + inEdges +
+        ", flowProps=" + flowProps +
+        ", projectId=" + projectId +
+        ", startNodes=" + startNodes +
+        ", endNodes=" + endNodes +
+        ", numLevels=" + numLevels +
+        ", failureEmail=" + failureEmail +
+        ", successEmail=" + successEmail +
+        ", failurePhone=" + failurePhone +
+        ", successPhone=" + successPhone +
+        ", mailCreator='" + mailCreator + '\'' +
+        ", errors=" + errors +
+        ", version=" + version +
+        ", metadata=" + metadata +
+        ", isLayedOut=" + isLayedOut +
+        ", isEmbeddedFlow=" + isEmbeddedFlow +
+        ", azkabanFlowVersion=" + azkabanFlowVersion +
+        '}';
+  }
 }
