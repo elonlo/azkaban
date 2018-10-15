@@ -18,10 +18,8 @@
 package azkaban.executor;
 
 import azkaban.alert.Alerter;
-import azkaban.utils.Emailer;
-import azkaban.utils.FileIOUtils;
-import azkaban.utils.Props;
-import azkaban.utils.PropsUtils;
+import azkaban.utils.*;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
@@ -44,19 +42,20 @@ public class AlerterHolder {
   private Map<String, Alerter> alerters;
 
   @Inject
-  public AlerterHolder(final Props props, final Emailer mailAlerter) {
+  public AlerterHolder(final Props props, final Emailer mailAlerter, final SMSAlerter smsAlerter) {
     try {
-      this.alerters = loadAlerters(props, mailAlerter);
+      this.alerters = loadAlerters(props, mailAlerter, smsAlerter);
     } catch (final Exception ex) {
       logger.error(ex);
       this.alerters = new HashMap<>();
     }
   }
 
-  private Map<String, Alerter> loadAlerters(final Props props, final Emailer mailAlerter) {
+  private Map<String, Alerter> loadAlerters(final Props props, final Emailer mailAlerter, final SMSAlerter smsAlerter) {
     final Map<String, Alerter> allAlerters = new HashMap<>();
     // load built-in alerters
     allAlerters.put("email", mailAlerter);
+    allAlerters.put("sms", smsAlerter);
     // load all plugin alerters
     final String pluginDir = props.getString("alerter.plugin.dir", "plugins/alerter");
     allAlerters.putAll(loadPluginAlerters(pluginDir));

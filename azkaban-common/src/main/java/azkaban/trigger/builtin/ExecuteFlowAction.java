@@ -218,6 +218,14 @@ public class ExecuteFlowAction implements TriggerAction {
     if (!this.executionOptions.isSuccessEmailsOverridden()) {
       this.executionOptions.setSuccessEmails(flow.getSuccessEmails());
     }
+
+    if (this.executionOptions.getSuccessPhones().isEmpty() && flow.getSuccessPhones() != null) {
+      this.executionOptions.setSuccessPhones(flow.getSuccessPhones());
+    }
+    if (this.executionOptions.getFailurePhones().isEmpty() && flow.getFailurePhones() != null) {
+      this.executionOptions.setFailurePhones(flow.getFailurePhones());
+    }
+
     exflow.setExecutionOptions(this.executionOptions);
 
     if (this.slaOptions != null && this.slaOptions.size() > 0) {

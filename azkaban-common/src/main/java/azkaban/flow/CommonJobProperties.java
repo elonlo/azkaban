@@ -61,6 +61,21 @@ public class CommonJobProperties {
    */
   public static final String FAILURE_EMAILS = "failure.emails";
 
+  /**
+   * Comma delimited list of phone number for success messages
+   */
+  public static final String SUCCESS_PHONES = "success.phones";
+
+  /**
+   * Comma delimited list of phone number for failure messages
+   */
+  public static final String FAILURE_PHONES = "failure.phones";
+
+  /**
+   * Restart the flow when failure
+   */
+  public static final String FAILURE_RESTART = "failure.restart";
+
   /*
    * The following are the common props that will be added to the job by azkaban
    */

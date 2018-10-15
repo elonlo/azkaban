@@ -16,6 +16,14 @@
 
 $.namespace('azkaban');
 
+function objectToString(obj){
+  var des = "";
+    for(var name in obj){
+	    des += name + ":" + obj[name] + ";";
+    }
+  return des;
+}
+
 var flowExecuteDialogView;
 azkaban.FlowExecuteDialogView = Backbone.View.extend({
   events: {
@@ -52,8 +60,12 @@ azkaban.FlowExecuteDialogView = Backbone.View.extend({
     var failureAction = $('#failure-action').val();
     var failureEmails = $('#failure-emails').val();
     var successEmails = $('#success-emails').val();
+    var failurePhones = $('#failure-phones').val();
+    var successPhones = $('#success-phones').val();
     var notifyFailureFirst = $('#notify-failure-first').is(':checked');
     var notifyFailureLast = $('#notify-failure-last').is(':checked');
+    var smsNotifyFailureFirst = $('#sms-notify-failure-first').is(':checked')
+    var smsNotifyFailureLast = $('#sms-notify-failure-last').is(':checked')
     var failureEmailsOverride = $("#override-failure-emails").is(':checked');
     var successEmailsOverride = $("#override-success-emails").is(':checked');
 
@@ -84,8 +96,12 @@ azkaban.FlowExecuteDialogView = Backbone.View.extend({
       failureAction: failureAction,
       failureEmails: failureEmails,
       successEmails: successEmails,
+      failurePhones: failurePhones,
+      successPhones: successPhones,
       notifyFailureFirst: notifyFailureFirst,
       notifyFailureLast: notifyFailureLast,
+      smsNotifyFailureFirst: smsNotifyFailureFirst,
+      smsNotifyFailureLast: smsNotifyFailureLast,
       flowOverride: flowOverride
     };
 
@@ -105,10 +121,14 @@ azkaban.FlowExecuteDialogView = Backbone.View.extend({
   },
 
   changeFlowInfo: function () {
+    console.log("changeFlowInfo: " + objectToString(this.model.attributes))
     var successEmails = this.model.get("successEmails");
     var failureEmails = this.model.get("failureEmails");
+    var successPhones = this.model.get("successPhones");
+    var failurePhones = this.model.get("failurePhones");
     var failureActions = this.model.get("failureAction");
     var notifyFailure = this.model.get("notifyFailure");
+    var smsNotifyFailure = this.model.get("smsNotifyFailure")
     var flowParams = this.model.get("flowParams");
     var isRunning = this.model.get("isRunning");
     var concurrentOption = this.model.get("concurrentOption");
@@ -138,6 +158,12 @@ azkaban.FlowExecuteDialogView = Backbone.View.extend({
     if (failureEmails) {
       $('#failure-emails').val(failureEmails.join());
     }
+    if (successPhones) {
+      $('#success-phones').val(successPhones.join())
+    }
+    if (failurePhones) {
+      $('#failure-phones').val(failurePhones.join())
+    }
     if (failureActions) {
       $('#failure-action').val(failureActions);
     }
@@ -149,6 +175,15 @@ azkaban.FlowExecuteDialogView = Backbone.View.extend({
     if (notifyFailure.last) {
       $('#notify-failure-last').attr('checked', true);
       $('#notify-failure-last').parent('.btn').addClass('active');
+    }
+
+    if (smsNotifyFailure.first) {
+      $('#sms-notify-failure-first').attr('checked', true);
+      $('#sms-notify-failure-first').parent('.btn').addClass('active');
+    }
+    if (smsNotifyFailure.last) {
+      $('#sms-notify-failure-last').attr('checked', true);
+      $('#sms-notify-failure-last').parent('.btn').addClass('active');
     }
 
     if (concurrentOption) {

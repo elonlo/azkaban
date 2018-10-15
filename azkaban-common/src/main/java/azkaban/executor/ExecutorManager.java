@@ -1277,14 +1277,28 @@ public class ExecutorManager extends EventHandler implements
       final ExecutionOptions options = flow.getExecutionOptions();
       // But we can definitely email them.
       final Alerter mailAlerter = this.alerterHolder.get("email");
+      final Alerter smsAlerter = this.alerterHolder.get("sms");
       if (flow.getStatus() != Status.SUCCEEDED) {
+        if (options.getFailurePhones() != null && !options.getFailurePhones().isEmpty()) {
+            try {
+                smsAlerter.alertOnError(flow);
+            } catch (final Exception e) {
+                logger.error(e);
+            }
+        }
         if (options.getFailureEmails() != null && !options.getFailureEmails().isEmpty()) {
           try {
             mailAlerter.alertOnError(flow, extraReasons);
           } catch (final Exception e) {
             logger.error(e);
           }
+          try {
+            mailAlerter.alertOnError(flow, extraReasons);
+          } catch (final Exception e) {
+            logger.error(e);
+          }
         }
+
         if (options.getFlowParameters().containsKey("alert.type")) {
           final String alertType = options.getFlowParameters().get("alert.type");
           final Alerter alerter = this.alerterHolder.get(alertType);
@@ -1299,9 +1313,15 @@ public class ExecutorManager extends EventHandler implements
           }
         }
       } else {
+        if (options.getSuccessPhones() != null && !options.getSuccessPhones().isEmpty()) {
+          try {
+            smsAlerter.alertOnSuccess(flow);
+          } catch (final Exception e) {
+            logger.error(e);
+          }
+        }
         if (options.getSuccessEmails() != null && !options.getSuccessEmails().isEmpty()) {
           try {
-
             mailAlerter.alertOnSuccess(flow);
           } catch (final Exception e) {
             logger.error(e);
@@ -1405,7 +1425,16 @@ public class ExecutorManager extends EventHandler implements
 
     final ExecutionOptions options = flow.getExecutionOptions();
     if (oldStatus != newStatus && newStatus.equals(Status.FAILED_FINISHING)) {
-      // We want to see if we should give an email status on first failure.
+      // We want to see if we should give an email/phone status on first failure.
+      if (options.getSmsNotifyOnFirstFailure()) {
+        final Alerter smsAlerter = this.alerterHolder.get("sms");
+        try {
+          smsAlerter.alertOnFirstError(flow);
+        } catch (final Exception e) {
+          e.printStackTrace();
+          logger.error("Failed to send first error phone." + e.getMessage());
+        }
+      }
       if (options.getNotifyOnFirstFailure()) {
         final Alerter mailAlerter = this.alerterHolder.get("email");
         try {

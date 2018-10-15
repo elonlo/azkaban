@@ -42,8 +42,12 @@ public class ExecutionOptions {
   private static final String FLOW_PARAMETERS = "flowParameters";
   private static final String NOTIFY_ON_FIRST_FAILURE = "notifyOnFirstFailure";
   private static final String NOTIFY_ON_LAST_FAILURE = "notifyOnLastFailure";
+  private static final String SMS_NOTIFY_ON_FIRST_FAILURE = "smsNotifyOnFirstFailure";
+  private static final String SMS_NOTIFY_ON_LAST_FAILURE = "smsNotifyOnLastFailure";
   private static final String SUCCESS_EMAILS = "successEmails";
   private static final String FAILURE_EMAILS = "failureEmails";
+  private static final String SUCCESS_PHONES = "successPhones";
+  private static final String FAILURE_PHONES = "failurePhones";
   private static final String FAILURE_ACTION = "failureAction";
   private static final String PIPELINE_LEVEL = "pipelineLevel";
   private static final String PIPELINE_EXECID = "pipelineExecId";
@@ -61,6 +65,11 @@ public class ExecutionOptions {
   private boolean successEmailsOverride = false;
   private ArrayList<String> failureEmails = new ArrayList<>();
   private ArrayList<String> successEmails = new ArrayList<>();
+
+  private boolean smsNotifyOnFirstFailure = true;
+  private boolean smsNotifyOnLastFailure = false;
+  private ArrayList<String> failurePhones = new ArrayList<>();
+  private ArrayList<String> successPhones = new ArrayList<>();
 
   private Integer pipelineLevel = null;
   private Integer pipelineExecId = null;
@@ -94,6 +103,10 @@ public class ExecutionOptions {
         wrapper.getBool(NOTIFY_ON_LAST_FAILURE, options.notifyOnLastFailure);
     options.concurrentOption =
         wrapper.getString(CONCURRENT_OPTION, options.concurrentOption);
+    options.smsNotifyOnFirstFailure =
+            wrapper.getBool(SMS_NOTIFY_ON_FIRST_FAILURE, options.smsNotifyOnFirstFailure);
+    options.smsNotifyOnLastFailure =
+            wrapper.getBool(SMS_NOTIFY_ON_LAST_FAILURE, options.smsNotifyOnLastFailure);
 
     if (wrapper.containsKey(DISABLE)) {
       options.initiallyDisabledJobs = wrapper.<Object>getList(DISABLE);
@@ -118,6 +131,9 @@ public class ExecutionOptions {
         Collections.<String>emptyList()));
     options.setFailureEmails(wrapper.<String>getList(FAILURE_EMAILS,
         Collections.<String>emptyList()));
+
+    options.setSuccessPhones(wrapper.getList(SUCCESS_PHONES, Collections.emptyList()));
+    options.setFailurePhones(wrapper.getList(FAILURE_PHONES, Collections.emptyList()));
 
     options.setSuccessEmailsOverridden(wrapper.getBool(SUCCESS_EMAILS_OVERRIDE,
         false));
@@ -169,7 +185,37 @@ public class ExecutionOptions {
     this.successEmails = new ArrayList<>(emails);
   }
 
-  public boolean getNotifyOnFirstFailure() {
+  public void setSuccessPhones(final Collection<String> phones) {
+    this.successPhones = new ArrayList<>(phones);
+  }
+
+  public List<String> getSuccessPhones() { return this.successPhones; }
+
+  public void setFailurePhones(final Collection<String> phones) {
+    this.failurePhones = new ArrayList<>(phones);
+  }
+
+  public List<String> getFailurePhones() {
+      return this.failurePhones;
+  }
+
+    public boolean getSmsNotifyOnFirstFailure() {
+        return smsNotifyOnFirstFailure;
+    }
+
+    public void setSmsNotifyOnFirstFailure(boolean smsNotifyOnFirstFailure) {
+        this.smsNotifyOnFirstFailure = smsNotifyOnFirstFailure;
+    }
+
+    public boolean getSmsNotifyOnLastFailure() {
+        return smsNotifyOnLastFailure;
+    }
+
+    public void setSmsNotifyOnLastFailure(boolean smsNotifyOnLastFailure) {
+        this.smsNotifyOnLastFailure = smsNotifyOnLastFailure;
+    }
+
+    public boolean getNotifyOnFirstFailure() {
     return this.notifyOnFirstFailure;
   }
 
@@ -251,8 +297,12 @@ public class ExecutionOptions {
     flowOptionObj.put(FLOW_PARAMETERS, this.flowParameters);
     flowOptionObj.put(NOTIFY_ON_FIRST_FAILURE, this.notifyOnFirstFailure);
     flowOptionObj.put(NOTIFY_ON_LAST_FAILURE, this.notifyOnLastFailure);
+    flowOptionObj.put(SMS_NOTIFY_ON_LAST_FAILURE, this.smsNotifyOnLastFailure);
+    flowOptionObj.put(SMS_NOTIFY_ON_FIRST_FAILURE, this.smsNotifyOnFirstFailure);
     flowOptionObj.put(SUCCESS_EMAILS, this.successEmails);
     flowOptionObj.put(FAILURE_EMAILS, this.failureEmails);
+    flowOptionObj.put(SUCCESS_PHONES, this.successPhones);
+    flowOptionObj.put(FAILURE_PHONES, this.failurePhones);
     flowOptionObj.put(FAILURE_ACTION, this.failureAction.toString());
     flowOptionObj.put(PIPELINE_LEVEL, this.pipelineLevel);
     flowOptionObj.put(PIPELINE_EXECID, this.pipelineExecId);

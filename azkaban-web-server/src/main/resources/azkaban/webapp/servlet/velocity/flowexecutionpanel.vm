@@ -31,8 +31,14 @@
               </div>
             </li>
             <li viewpanel="notification-panel">
-              <a href="#">Notification</a>
+              <a href="#">Email Notification</a>
               <div class="menu-caption">Change the address where success and failure emails will be
+                sent.
+              </div>
+            </li>
+            <li viewpanel="sms-notification-panel">
+              <a href="#">SMS Notification</a>
+              <div class="menu-caption">Change the phone where success and failure SMS will be
                 sent.
               </div>
             </li>
@@ -106,6 +112,35 @@
                 delimited list.</label>
               <textarea class="form-control" rows="3" id="success-emails"></textarea>
             </div>
+
+          ## SMS Notification panel.
+
+            <div id="sms-notification-panel" class="side-panel">
+            <h4>Notify on failure</h4>
+            <p>On a job failure, notify on either the first failure, and/or when the failed flow
+              finishes.</p>
+            <hr>
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-default">
+                <input id="sms-notify-failure-first" type="radio" name="notify" value="first">First
+                failure
+              </label>
+              <label class="btn btn-default">
+                <input id="sms-notify-failure-last" type="radio" name="notify" value="last">Flow
+                finished
+              </label>
+            </div>
+
+            <h4>Failure Phones</h4>
+            <label>Notify these addresses on failure. Comma, space, or semi-colon delimited
+              list.</label>
+            <textarea class="form-control" rows="3" id="failure-phones"></textarea>
+
+            <h4>Success Phones</h4>
+            <label>Notify when the flow finishes successfully. Comma, space, or semi-colon
+              delimited list.</label>
+            <textarea class="form-control" rows="3" id="success-phones"></textarea>
+          </div>
 
           ## Failure options panel.
 
