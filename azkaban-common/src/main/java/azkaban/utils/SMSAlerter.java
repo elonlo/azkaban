@@ -2,6 +2,8 @@ package azkaban.utils;
 
 import azkaban.alert.Alerter;
 import azkaban.executor.ExecutableFlow;
+import azkaban.executor.Executor;
+import azkaban.executor.ExecutorManagerException;
 import azkaban.sla.SlaOption;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.ClientProtocolException;
@@ -58,6 +60,11 @@ public class SMSAlerter implements Alerter {
   @Override
   public void alertOnSla(SlaOption slaOption, String slaMessage) throws Exception {
     logger.info("SLA告警短信通知为实现，发送忽略");
+  }
+
+  @Override
+  public void alertOnFailedUpdate(Executor executor, List<ExecutableFlow> executions, ExecutorManagerException e) {
+
   }
 
   /**
